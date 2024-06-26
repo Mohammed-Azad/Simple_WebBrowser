@@ -11,6 +11,7 @@ import WebKit
 class ViewController: UIViewController,WKNavigationDelegate {
     var webView: WKWebView!
     var progressView: UIProgressView!
+    var websites = ["github.com/Mohammed-Azad","linkedin.com/in/mhammad-azad-aa1a65232/","stackoverflow.com/users/19226214/mohammed-azad"]
     //Delegation is what's called a programming pattern – a way of writing code
      override func loadView() {
          webView = WKWebView()
@@ -38,7 +39,8 @@ class ViewController: UIViewController,WKNavigationDelegate {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress),options: .new, context: nil)
         
         
-        let url = URL(string:"https://github.com/Mohammed-Azad")!
+        let url = URL(string: "https://" + websites[0])!
+        print(url)
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
         
@@ -54,8 +56,11 @@ class ViewController: UIViewController,WKNavigationDelegate {
       }
     @objc func openTapped() {
           let ac = UIAlertController(title: "Open page ...", message: nil, preferredStyle: .actionSheet)
-          ac.addAction(UIAlertAction(title: "linkedin.com/in/mhammad-azad-aa1a65232/", style: .default,handler: openPage))
-          ac.addAction(UIAlertAction(title: "stackoverflow.com/users/19226214/mohammed-azad", style: .default, handler: openPage))
+        
+        for website in websites {
+            ac.addAction(UIAlertAction(title: website, style: .default,handler: openPage))
+        }
+          
           ac.addAction(UIAlertAction(title: "cancel ", style: .cancel))
           ac.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
           present(ac,animated: true)
